@@ -45,7 +45,6 @@ class Server:
         pages = self.dataset()
         return pages[start:end]
 
-
     def get_hyper(self, page: int = 1, page_size: int = 10) -> Dict[str, Any]:
         ''' returns a dictionary '''
         assert type(page) == int and page > 0
@@ -58,4 +57,3 @@ class Server:
                 'prev_page': page - 1 if page > 1 else None,
                 'total_pages': to_pages
                 }
-    
