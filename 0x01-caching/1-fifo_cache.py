@@ -27,7 +27,6 @@ class FIFOCache(BaseCaching):
         self.cache_data[key] = item
         self.fifo_rule.append(key)
 
-
     def get(self, key):
         '''method get the key from class'''
         if key is None or key not in self.cache_data:
