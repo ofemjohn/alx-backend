@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" Inherited module from 'BaseCaching' module
+""" Inherited module from BaseCaching module.
 """
 from base_caching import BaseCaching
 
@@ -18,12 +18,10 @@ class FIFOCache(BaseCaching):
         '''method retrieves key, value'''
         if key is None or item is None:
             return
-
         if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
             fifo_key = self.fifo_rule.pop(0)
             del self.cache_data[fifo_key]
             print('DISCARD: {}'.format(fifo_key))
-
         self.cache_data[key] = item
         self.fifo_rule.append(key)
 
