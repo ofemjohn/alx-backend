@@ -5,6 +5,7 @@ from base_caching import BaseCaching
 
 
 class BasicCache(BaseCaching):
+    '''class inherited from the BaseChaching module'''
     def put(self, key, item):
         """ Add an item in the cache
         """
