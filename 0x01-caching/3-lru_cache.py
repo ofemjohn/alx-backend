@@ -1,56 +1,41 @@
+#!/usr/bin/python3
+""" 3-lru_cache.py """
 from base_caching import BaseCaching
-""" Inherited module from BaseCaching module.
-LRU Caching
-"""
 
 
 class LRUCache(BaseCaching):
-    '''caching class'''
+    """ LRUCache class that inherits from BaseCaching """
+
     def __init__(self):
-        '''initializes'''
+        """ Initialize """
         super().__init__()
-        self.head = '-'
-        self.tail = '='
-        self.next = {}
-        self.prev = {}
-        self.handle(self.head, self.tail)
-
-    def handle(self, head, tail):
-        '''handles head and tail'''
-        self.next[head] = tail
-        self.prev[tail] = head
-
-    def _remove(self, key):
-        '''removes key'''
-        self.next[self.prev[key]] = self.next[key]
-        self.prev[self.next[key]] = self.prev[key]
-        del self.prev[key], self.next[key], self.cache_data[key]
-
-    def _add(self, key, item):
-        '''add key, value'''
-        self.cache_data[key] = item
-        self.next[self.prev[self.tail]] = key
-        self.prev[key] = self.prev[self.tail]
-        self.next[key] = self.tail
-        self.prev[self.tail] = key
-        if len(self.cache_data) > BaseCaching.MAX_ITEMS:
-            to_discard = self.next[self.head]
-            self._remove(to_discard)
-            print("DISCARD: {}".format(to_discard))
+        self.order = []
 
     def put(self, key, item):
-        '''add key, value'''
-        if not key or not item:
+        """ Add an item in the cache """
+        if key is None or item is None:
             return
+
+        # if the key already exists, move it to the end of the list
         if key in self.cache_data:
-            self._remove(key)
-        self._add(key, item)
+            self.order.remove(key)
+        # otherwise, if the cache is full, evict the least recently used item
+        elif len(self.cache_data) >= BaseCaching.MAX_ITEMS:
+            lru = self.order.pop(0)
+            del self.cache_data[lru]
+            print("DISCARD: {}".format(lru))
+
+        # add the new key to the end of the list and update the cache
+        self.order.append(key)
+        self.cache_data[key] = item
 
     def get(self, key):
-        '''get key'''
-        if not key or key not in self.cache_data:
+        """ Get an item by key """
+        if key is None or key not in self.cache_data:
             return None
-        value = self.cache_data[key]
-        self._remove(key)
-        self._add(key, value)
-        return value
+
+        ''' move the key to the end of the list'''
+        self.order.remove(key)
+        self.order.append(key)
+
+        return self.cache_data[key]
