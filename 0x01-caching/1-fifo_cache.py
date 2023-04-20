@@ -12,18 +12,18 @@ class FIFOCache(BaseCaching):
     def __init__(self):
         '''initialize'''
         super().__init__()
-        self.fifo_rule = []
+        self.keys = []
 
     def put(self, key, item):
-        '''method retrieves key, value'''
-        if key is None or item is None:
-            return
-        if len(self.cache_data) >= BaseCaching.MAX_ITEMS:
-            fifo_key = self.fifo_rule.pop(0)
-            del self.cache_data[fifo_key]
-            print('DISCARD: {}'.format(fifo_key))
-        self.cache_data[key] = item
-        self.fifo_rule.append(key)
+        """ Add an item in the cache
+        """
+        if key is not None and item is not None:
+            if len(self.cache_data) >= self.MAX_ITEMS:
+                removed_key = self.keys.pop(0)
+                del self.cache_data[removed_key]
+                print("DISCARD: {}".format(removed_key))
+            self.keys.append(key)
+            self.cache_data[key] = item
 
     def get(self, key):
         '''method get the key from class'''
