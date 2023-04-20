@@ -12,7 +12,7 @@ class LFUCache(BaseCaching):
         self.lfu_cache = {}
 
     def put(self, key, item):
-        """ LFU algorithm """
+        """LFU algorithm """
         if key in self.lru_cache:
             del self.lru_cache[key]
         if len(self.lru_cache) > BaseCaching.MAX_ITEMS - 1:
@@ -38,7 +38,7 @@ class LFUCache(BaseCaching):
         self.cache_data = dict(self.lru_cache)
 
     def get(self, key):
-        """ Return value"""
+        """ Returnvalue """
         if key in self.lru_cache:
             value = self.lru_cache[key]
             self.lru_cache.move_to_end(key)
