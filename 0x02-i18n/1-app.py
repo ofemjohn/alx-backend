@@ -18,5 +18,11 @@ class Config:
 
 app.config.from_object(Config)
 
+
+@app.route('/')
+def index():
+    return render_template('0-index.html')
+
+
 if __name__ == '__main__':
     app.run(debug=True, port=5009)
