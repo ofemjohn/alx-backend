@@ -20,7 +20,7 @@ class Config:
 app.config.from_object(Config)
 
 
-@staticmethod
+babel.localeselector
 def get_locale():
     '''config for languages'''
     return request.accept_languages.best_match(app.config['LANGUAGES'])
