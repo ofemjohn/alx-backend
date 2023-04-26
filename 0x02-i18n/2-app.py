@@ -5,14 +5,13 @@ from flask_babel import Babel
 from flask import render_template
 
 
-app = Flask(__name__)
-babel = Babel()
-babel.init_app(app)
+app = Flask(__name__, template_folder='templates')
+babel = Babel(app)
 
 
-class Config:
-    '''babel configuration file'''
-    LANGUAGES = ["en", "fr"]
+class Config(object):
+    '''Babel config'''
+    LANGUAGES = ['en', 'fr']
     BABEL_DEFAULT_LOCALE = 'en'
     BABEL_DEFAULT_TIMEZONE = 'UTC'
 
@@ -20,17 +19,17 @@ class Config:
 app.config.from_object(Config)
 
 
-@staticmethod
-def get_locale():
-    '''config for languages'''
-    return request.accept_languages.best_match(app.config['LANGUAGES'])
-
-
 @app.route('/')
-def index():
-    '''render templates for babel'''
+def helloWorld() -> str:
+    '''Render template'''
     return render_template('2-index.html')
 
 
+@babel.localeselector
+def get_locale():
+    '''get languages'''
+    return request.accept_languages.best_match(app.config['LANGUAGES'])
+
+
 if __name__ == '__main__':
-    app.run(debug=True, port=5009)
+    app.run()
